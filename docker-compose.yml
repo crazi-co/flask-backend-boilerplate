@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      # API Configuration
+      - API_PORT=${API_PORT:-5000}
+      - API_BASE=${API_BASE:-/api/v1}
+      
+      # Database Configuration
+      - DATABASE_DSN=${DATABASE_DSN}
+      
+      # Authorization Configuration
+      - AUTHORIZATION_HEADER=${AUTHORIZATION_HEADER:-Authorization}
+      
+      # Role Configuration
+      - PUBLIC_ROLE=${PUBLIC_ROLE:-public}
+      - PRIVATE_ROLE=${PRIVATE_ROLE:-private}
+      - USER_ROLE=${USER_ROLE:-user}
+      
+      # API Keys
+      - PUBLIC_API_KEY=${PUBLIC_API_KEY}
+      - PRIVATE_API_KEY=${PRIVATE_API_KEY}
+      
+      # JWT/Authentication Configuration
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - JWT_ALGORITHM=${JWT_ALGORITHM:-HS256}
+      
+      # AWS SES (Email Service) Configuration
+      - SES_AWS_ACCESS_KEY_ID=${SES_AWS_ACCESS_KEY_ID}
+      - SES_AWS_SECRET_ACCESS_KEY=${SES_AWS_SECRET_ACCESS_KEY}
+      - SES_AWS_REGION=${SES_AWS_REGION:-us-east-1}
+      
+      # OTP Configuration
+      - OTP_EXPIRY_IN_MINUTES=${OTP_EXPIRY_IN_MINUTES:-10}
+      - SESSION_EXPIRY_IN_DAYS=${SESSION_EXPIRY_IN_DAYS:-30}
+      
+      # Azure Resources Configuration
+      - RESOURCE_GROUP=${RESOURCE_GROUP}
+      - LOCATION=${LOCATION}
+      - ACR_NAME=${ACR_NAME}
+      - APP_NAME=${APP_NAME}
+      - ENV_NAM=${ENV_NAM}
+      - WEBAPP_PLAN=${WEBAPP_PLAN}
+      - WEBAPP_SKU=${WEBAPP_SKU}
+      
+      # Application Version
+      - VERSION=${VERSION:-1.0.0}
+      
+      # Container Registry Configuration
+      - REGISTRY_TYPE=${REGISTRY_TYPE:-acr}
+      - DOCKERHUB_USERNAME=${DOCKERHUB_USERNAME}
+      - DOCKERHUB_PASSWORD=${DOCKERHUB_PASSWORD}
+      
+      # Application Configuration
+      - ENVIRONMENT=${ENVIRONMENT}
+      - RATE_LIMIT=${RATE_LIMIT}
+      
+      # Stripe Configuration
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_PRICE_ID=${STRIPE_PRICE_ID}
+      - CLIENT_URL=${CLIENT_URL}
+      - STRIPE_RETURN_URL=${STRIPE_RETURN_URL}
+      
+      # Google OAuth Configuration
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_REDIRECT_URI=${GOOGLE_REDIRECT_URI}
+    restart: unless-stopped

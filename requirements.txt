@@ -1,0 +1,15 @@
+Flask
+Flask_Cors
+flask_limiter
+protobuf
+psycopg2-binary
+pydantic[email]
+PyJWT
+python-dotenv
+bcrypt
+Requests
+SQLAlchemy
+sqlmodel
+stripe
+uvicorn
+Werkzeug

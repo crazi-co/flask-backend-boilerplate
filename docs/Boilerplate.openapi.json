@@ -1,0 +1,2256 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Flask Backend Boilerplate",
+    "description": "A production-ready Flask backend boilerplate with JWT authentication, PostgreSQL database, Google OAuth, Stripe payments, and Azure deployment scripts.",
+    "version": "1.0.0"
+  },
+  "tags": [],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Register",
+        "deprecated": false,
+        "description": "This endpoint lets a new user register an account on Crazi Co. An account needs to be activated using the [Activate](apidog://link/endpoint/25423089) endpoint before further usage.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "last_name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "first_name",
+                  "last_name",
+                  "email",
+                  "password"
+                ]
+              },
+              "example": {
+                "first_name": "Vibhanshu",
+                "last_name": "Rathod",
+                "email": "hello@crazi.co",
+                "password": "e|YUiO2PIj7E'0&V"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "credits": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "first_name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "is_2fa_enabled": {
+                          "type": "boolean"
+                        },
+                        "is_active": {
+                          "type": "boolean"
+                        },
+                        "is_dark_mode": {
+                          "type": "boolean"
+                        },
+                        "last_name": {
+                          "type": "string"
+                        },
+                        "token": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "created_at",
+                        "credits",
+                        "email",
+                        "first_name",
+                        "id",
+                        "is_2fa_enabled",
+                        "is_active",
+                        "is_dark_mode",
+                        "last_name",
+                        "token",
+                        "updated_at"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": {
+                  "data": {
+                    "created_at": "Thu, 27 Nov 2025 00:10:11 GMT",
+                    "credits": 0,
+                    "email": "hello@crazi.co",
+                    "first_name": "Vibhanshu",
+                    "id": "user_5e5ce11ad8ed4a328df03ffd19fa80ec",
+                    "is_2fa_enabled": false,
+                    "is_active": false,
+                    "is_dark_mode": true,
+                    "last_name": "Rathod",
+                    "token": "crazi_co_user_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzVlNWNlMTFhZDhlZDRhMzI4ZGYwM2ZmZDE5ZmE4MGVjIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjQyMDIyMTMuMTMzNDEsImV4cCI6MTc2NDgwNzAxMy4xMzMzNTh9.zRVidZ5rRiYtmZytV09g97DpHBlhAMgW4qk1F4oCYSA",
+                    "updated_at": "Thu, 27 Nov 2025 00:10:11 GMT"
+                  },
+                  "message": "User registered successfully.",
+                  "status": "success"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/Bad Request",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Public API Key1": []
+          }
+        ]
+      }
+    },
+    "/auth/google": {
+      "post": {
+        "summary": "Google OAuth",
+        "deprecated": false,
+        "description": "This endpoint lets a user log in using Google OAuth and generate a user token on Crazi Co.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjkzYTkzNThjY2Y5OWYxYmIwNDBiYzYyMjFkNTQ5M2UxZmZkOGFkYTEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI4MTMzOTYxNjkyNDMtaWozazRvMGlucDZ0N3Q2dXA1ajMxNzRsdXF0bGU5amsuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI4MTMzOTYxNjkyNDMtaWozazRvMGlucDZ0N3Q2dXA1ajMxNzRsdXF0bGU5amsuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDQ5MzMyMDk2MjI4MDI3NzU3NjgiLCJlbWFpbCI6InZpYmhhbnNodXJhdGhvZDMyQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYmYiOjE3NjQyMjQ5MTUsIm5hbWUiOiJWaWJoYW5zaHUgUmF0aG9kIiwiZ2l2ZW5fbmFtZSI6IlZpYmhhbnNodSIsImZhbWlseV9uYW1lIjoiUmF0aG9kIiwiaWF0IjoxNzY0MjI1MjE1LCJleHAiOjE3NjQyMjg4MTUsImp0aSI6IjQwMjBkY2IxM2M3Y2ZkZTM3YTQ2ZTVjMWE2MzA2NWIyNTc1YzJhOGMifQ.E5Gy7SIBNwawevRVHNbqpn4AEzapb6gv6oNkjsoYGmCwsEmCNn7miN8QWmScR5O5PpuP9RaRbiBEhM3-53nmj-Xgwgd90EKDhKKfSqwdiIqM2bFb0ImEtESQt7lINPlm7D-dpUYsRP0rpuGX1v9T-3tT6VAGtqtm8H6rUMH0Ojf142jI48Hr5YD4On2Gxp03LXDoTcMR_76sPNCww0ZQYZOoAoBOive2FfBfOHp_h3ohieiPluE_oqcl_AB8_m8dplhuS-Kuh0xyvfSppNEpdLuB_8pPotrLV7BNTyXm_-CV0Fr4yWVTQAFSCq04ppELVdZ3rOA_zfwlMcdaATcvNA"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "credits": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "first_name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "is_2fa_enabled": {
+                          "type": "boolean"
+                        },
+                        "is_active": {
+                          "type": "boolean"
+                        },
+                        "is_dark_mode": {
+                          "type": "boolean"
+                        },
+                        "last_name": {
+                          "type": "null"
+                        },
+                        "token": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "created_at",
+                        "credits",
+                        "email",
+                        "first_name",
+                        "id",
+                        "is_2fa_enabled",
+                        "is_active",
+                        "is_dark_mode",
+                        "last_name",
+                        "token",
+                        "updated_at"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": {
+                  "data": {
+                    "created_at": "Thu, 27 Nov 2025 06:33:37 GMT",
+                    "credits": 0,
+                    "email": "vibhanshurathod32@gmail.com",
+                    "first_name": "Vibhanshu Rathod",
+                    "id": "user_c00128d471a742609ac32d8db994322a",
+                    "is_2fa_enabled": false,
+                    "is_active": false,
+                    "is_dark_mode": true,
+                    "last_name": null,
+                    "token": "calzo_user_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyX2MwMDEyOGQ0NzFhNzQyNjA5YWMzMmQ4ZGI5OTQzMjJhIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjQyMjUyNTAuMzYxMzA2LCJleHAiOjE3NjQ4MzAwNTAuMzYxMjcyfQ.uQmT-qBWQ6T2FOgMImyTMl851Lfx1-tdUQ_GcVZkNSA",
+                    "updated_at": "Thu, 27 Nov 2025 06:33:37 GMT"
+                  },
+                  "message": "User logged in successfully.",
+                  "status": "success"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/Bad Request",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/session": {
+      "post": {
+        "summary": "Login",
+        "deprecated": false,
+        "description": "This endpoint lets a user log in and generate a user token on Crazi Co. Code is only needed if 2FA is turned on and can be generated using the [Send OTP](apidog://link/endpoint/25423088) endpoint.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "code": "715927"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "credits": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "first_name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "is_2fa_enabled": {
+                          "type": "boolean"
+                        },
+                        "is_active": {
+                          "type": "boolean"
+                        },
+                        "is_dark_mode": {
+                          "type": "boolean"
+                        },
+                        "last_name": {
+                          "type": "string"
+                        },
+                        "token": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "created_at",
+                        "credits",
+                        "email",
+                        "first_name",
+                        "id",
+                        "is_2fa_enabled",
+                        "is_active",
+                        "is_dark_mode",
+                        "last_name",
+                        "token",
+                        "updated_at"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": {
+                  "data": {
+                    "created_at": "Wed, 26 Nov 2025 23:51:28 GMT",
+                    "credits": 0,
+                    "email": "hello@crazi.co",
+                    "first_name": "Vibhanshu",
+                    "id": "user_31e827070dcf44198ec11a9112a9a572",
+                    "is_2fa_enabled": true,
+                    "is_active": true,
+                    "is_dark_mode": true,
+                    "last_name": "Rathod",
+                    "token": "calzo_user_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzMxZTgyNzA3MGRjZjQ0MTk4ZWMxMWE5MTEyYTlhNTcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjQyMDE4MjUuMjg1Njc5LCJleHAiOjE3NjQ4MDY2MjUuMjg1MDI1fQ.nVfVmR48xE-QHRFNPNvN6GIt_CnD_5fk1ak4wiV7FNc",
+                    "updated_at": "Wed, 26 Nov 2025 23:58:09 GMT"
+                  },
+                  "message": "User logged in successfully.",
+                  "status": "success"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/Bad Request",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Basic Auth1": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Logout",
+        "deprecated": false,
+        "description": "This endpoint lets a user log out from their active session on Crazi Co.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "",
+            "headers": {}
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "User Token1": []
+          }
+        ]
+      }
+    },
+    "/users/{user_email}/password": {
+      "patch": {
+        "summary": "Change Password",
+        "deprecated": false,
+        "description": "This endpoint lets a user change their account password on Crazi Co. Code can be generated using the [Send OTP](apidog://link/endpoint/25423088) endpoint.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "user_email",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "{{BASIC_USER}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  },
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "password",
+                  "code"
+                ]
+              },
+              "example": {
+                "password": "e|YUiO2PIj7E'0&V",
+                "code": "217503"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "null"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": "{\n  \"data\": null,\n  \"message\": \"User password changed successfully.\",\n  \"status\": \"success\"\n}"
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/Bad Request",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/Resource Not Found",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Change Password Auth1": []
+          }
+        ]
+      }
+    },
+    "/users/{user_email}/otp/{otp_type}": {
+      "post": {
+        "summary": "Send OTP",
+        "deprecated": false,
+        "description": "This endpoint lets a user send an OTP (code) for verification on Crazi Co.\n\nYou can generate three types of OTP (code):\n\n- `CHANGE_PASSWORD`\n    \n- `TWO_FACTOR_AUTH`\n    \n- `ACTIVATION`",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "user_email",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "{{BASIC_USER}}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "otp_type",
+            "in": "path",
+            "description": "CHANGE_PASSWORD or TWO_FACTOR_AUTH or ACTIVATION",
+            "required": true,
+            "example": "CHANGE_PASSWORD",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "null"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": {
+                  "data": null,
+                  "message": "OTP sent successfully.",
+                  "status": "success"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/Bad Request",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/Resource Not Found",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Public API Key1": []
+          }
+        ]
+      }
+    },
+    "/users/{user_email}/activate": {
+      "post": {
+        "summary": "Activate",
+        "deprecated": false,
+        "description": "This endpoint lets a user activate their account on Crazi Co. Code can be generated using the [Send OTP](apidog://link/endpoint/25423088) endpoint.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "user_email",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "{{BASIC_USER}}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "code"
+                ]
+              },
+              "example": {
+                "code": "245522"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "credits": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "first_name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "is_2fa_enabled": {
+                          "type": "boolean"
+                        },
+                        "is_active": {
+                          "type": "boolean"
+                        },
+                        "is_dark_mode": {
+                          "type": "boolean"
+                        },
+                        "last_name": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "created_at",
+                        "credits",
+                        "email",
+                        "first_name",
+                        "id",
+                        "is_2fa_enabled",
+                        "is_active",
+                        "is_dark_mode",
+                        "last_name",
+                        "updated_at"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": {
+                  "data": {
+                    "created_at": "Thu, 27 Nov 2025 00:10:11 GMT",
+                    "credits": 0,
+                    "email": "hello@crazi.co",
+                    "first_name": "Vibhanshu",
+                    "id": "user_5e5ce11ad8ed4a328df03ffd19fa80ec",
+                    "is_2fa_enabled": false,
+                    "is_active": true,
+                    "is_dark_mode": true,
+                    "last_name": "Rathod",
+                    "updated_at": "Thu, 27 Nov 2025 00:10:11 GMT"
+                  },
+                  "message": "User activated successfully.",
+                  "status": "success"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/Bad Request",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/Resource Not Found",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Public API Key1": []
+          }
+        ]
+      }
+    },
+    "/users/{user_id}/2fa": {
+      "post": {
+        "summary": "Enable 2FA",
+        "deprecated": false,
+        "description": "This endpoint lets a user enable two-factor authentication on Crazi Co. Code can be generated using the [Send OTP](apidog://link/endpoint/25423088) endpoint.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "code"
+                ]
+              },
+              "example": {
+                "code": "587429"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "null"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": {
+                  "data": null,
+                  "message": "User 2FA enabled successfully.",
+                  "status": "success"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/Bad Request",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/Resource Not Found",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "User Token1": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Disable 2FA",
+        "deprecated": false,
+        "description": "This endpoint lets a user disable two-factor authentication on Crazi Co. Code can be generated using the [Send OTP](apidog://link/endpoint/25423088) endpoint.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "{{USER_ID}}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "code"
+                ]
+              },
+              "example": {
+                "code": "119042"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "",
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/Bad Request",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/Resource Not Found",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "User Token1": []
+          }
+        ]
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "summary": "View",
+        "deprecated": false,
+        "description": "This endpoint lets a user view their account details on Crazi Co.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "{{USER_ID}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "credits": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "first_name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "is_2fa_enabled": {
+                          "type": "boolean"
+                        },
+                        "is_active": {
+                          "type": "boolean"
+                        },
+                        "is_dark_mode": {
+                          "type": "boolean"
+                        },
+                        "last_name": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "created_at",
+                        "credits",
+                        "email",
+                        "first_name",
+                        "id",
+                        "is_2fa_enabled",
+                        "is_active",
+                        "is_dark_mode",
+                        "last_name",
+                        "updated_at"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": {
+                  "data": {
+                    "created_at": "Wed, 26 Nov 2025 23:51:28 GMT",
+                    "credits": 0,
+                    "email": "hello@crazi.co",
+                    "first_name": "Vibhanshu",
+                    "id": "user_31e827070dcf44198ec11a9112a9a572",
+                    "is_2fa_enabled": false,
+                    "is_active": true,
+                    "is_dark_mode": true,
+                    "last_name": "Rathod",
+                    "updated_at": "Thu, 27 Nov 2025 00:20:54 GMT"
+                  },
+                  "message": "User fetched successfully.",
+                  "status": "success"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/Resource Not Found",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "General Auth1": []
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update",
+        "deprecated": false,
+        "description": "This endpoint lets a user update their account details on Crazi Co. Certain fields cannot be changed and will be rejected if included.\n\nForbidden keys:\n\n- `id`\n    \n- `email`\n    \n- `password`\n    \n- `credits`\n    \n- `is_2fa_enabled`\n    \n- `is_active`\n    \n- `created_at`\n    \n- `updated_at`",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "{{USER_ID}}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "last_name": {
+                    "type": "string"
+                  },
+                  "is_dark_mode": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "first_name",
+                  "last_name",
+                  "is_dark_mode"
+                ]
+              },
+              "example": {
+                "first_name": "Vibhanshu",
+                "last_name": "Rathod",
+                "is_dark_mode": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "credits": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "first_name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "is_2fa_enabled": {
+                          "type": "boolean"
+                        },
+                        "is_active": {
+                          "type": "boolean"
+                        },
+                        "is_dark_mode": {
+                          "type": "boolean"
+                        },
+                        "last_name": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "created_at",
+                        "credits",
+                        "email",
+                        "first_name",
+                        "id",
+                        "is_2fa_enabled",
+                        "is_active",
+                        "is_dark_mode",
+                        "last_name",
+                        "updated_at"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": {
+                  "data": {
+                    "created_at": "Wed, 26 Nov 2025 23:51:28 GMT",
+                    "credits": 0,
+                    "email": "hello@crazi.co",
+                    "first_name": "Vibhanshu",
+                    "id": "user_31e827070dcf44198ec11a9112a9a572",
+                    "is_2fa_enabled": false,
+                    "is_active": true,
+                    "is_dark_mode": false,
+                    "last_name": "Rathod",
+                    "updated_at": "Thu, 27 Nov 2025 00:20:54 GMT"
+                  },
+                  "message": "User updated successfully.",
+                  "status": "success"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/Bad Request",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/Resource Not Found",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "User Token1": []
+          }
+        ]
+      }
+    },
+    "/users/{user_id}/transactions": {
+      "get": {
+        "summary": "View All",
+        "deprecated": false,
+        "description": "This endpoint lets a user view all of their transactions on Crazi Co. Pagination works exactly like it does in [PostgreSQL](https://www.geeksforgeeks.org/postgresql/what-are-different-methods-to-do-pagination-in-postgresql/).",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "{{USER_ID}}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": 5,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": 2,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "updated_at": {
+                            "type": "string"
+                          },
+                          "user_id": {
+                            "type": "string"
+                          },
+                          "value_in_credits": {
+                            "type": "integer"
+                          },
+                          "value_in_fiat": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "created_at",
+                          "description",
+                          "id",
+                          "type",
+                          "updated_at",
+                          "user_id",
+                          "value_in_credits",
+                          "value_in_fiat"
+                        ]
+                      }
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": "{\n  \"data\": [\n    {\n      \"created_at\": \"Thu, 27 Nov 2025 00:39:09 GMT\",\n      \"description\": \"Admin updated credits from 0.0 to 10.0.\",\n      \"id\": \"transaction_52d462f898e54b3983c186567259b74a\",\n      \"type\": \"CREDIT\",\n      \"updated_at\": \"Thu, 27 Nov 2025 00:39:09 GMT\",\n      \"user_id\": \"user_31e827070dcf44198ec11a9112a9a572\",\n      \"value_in_credits\": 10.0,\n      \"value_in_fiat\": 0.1\n    },\n    {\n      \"created_at\": \"Thu, 27 Nov 2025 00:39:14 GMT\",\n      \"description\": \"Admin updated credits from 10.0 to 20.0.\",\n      \"id\": \"transaction_7b3fff8a4a124f41a66c9a15560b3885\",\n      \"type\": \"CREDIT\",\n      \"updated_at\": \"Thu, 27 Nov 2025 00:39:14 GMT\",\n      \"user_id\": \"user_31e827070dcf44198ec11a9112a9a572\",\n      \"value_in_credits\": 10.0,\n      \"value_in_fiat\": 0.1\n    },\n    {\n      \"created_at\": \"Thu, 27 Nov 2025 00:39:18 GMT\",\n      \"description\": \"Admin updated credits from 20.0 to 30.0.\",\n      \"id\": \"transaction_192f46aef86e4bbea42ada6a5764478b\",\n      \"type\": \"CREDIT\",\n      \"updated_at\": \"Thu, 27 Nov 2025 00:39:18 GMT\",\n      \"user_id\": \"user_31e827070dcf44198ec11a9112a9a572\",\n      \"value_in_credits\": 10.0,\n      \"value_in_fiat\": 0.1\n    },\n    {\n      \"created_at\": \"Thu, 27 Nov 2025 00:39:21 GMT\",\n      \"description\": \"Admin updated credits from 30.0 to 20.0.\",\n      \"id\": \"transaction_969b5fe9958143eba30ddf9c59e8fd2c\",\n      \"type\": \"DEBIT\",\n      \"updated_at\": \"Thu, 27 Nov 2025 00:39:21 GMT\",\n      \"user_id\": \"user_31e827070dcf44198ec11a9112a9a572\",\n      \"value_in_credits\": 10.0,\n      \"value_in_fiat\": 0.1\n    },\n    {\n      \"created_at\": \"Thu, 27 Nov 2025 00:39:24 GMT\",\n      \"description\": \"Admin updated credits from 20.0 to 40.0.\",\n      \"id\": \"transaction_ba7f8f36355540f1a93d1af78a7fe2ef\",\n      \"type\": \"CREDIT\",\n      \"updated_at\": \"Thu, 27 Nov 2025 00:39:24 GMT\",\n      \"user_id\": \"user_31e827070dcf44198ec11a9112a9a572\",\n      \"value_in_credits\": 20.0,\n      \"value_in_fiat\": 0.2\n    }\n  ],\n  \"message\": \"Transactions fetched successfully.\",\n  \"status\": \"success\"\n}"
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/Resource Not Found",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "General Auth1": []
+          }
+        ]
+      }
+    },
+    "/users/{user_id}/transactions/{transaction_id}": {
+      "get": {
+        "summary": "View",
+        "deprecated": false,
+        "description": "This endpoint lets a user view a specific transaction on Crazi Co.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "{{USER_ID}}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "transaction_id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "{{TRANSACTION_ID}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "type": "string"
+                        },
+                        "value_in_credits": {
+                          "type": "integer"
+                        },
+                        "value_in_fiat": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "created_at",
+                        "description",
+                        "id",
+                        "type",
+                        "updated_at",
+                        "user_id",
+                        "value_in_credits",
+                        "value_in_fiat"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": "{\n  \"data\": {\n    \"created_at\": \"Thu, 27 Nov 2025 00:39:09 GMT\",\n    \"description\": \"Admin updated credits from 0.0 to 10.0.\",\n    \"id\": \"transaction_52d462f898e54b3983c186567259b74a\",\n    \"type\": \"CREDIT\",\n    \"updated_at\": \"Thu, 27 Nov 2025 00:39:09 GMT\",\n    \"user_id\": \"user_31e827070dcf44198ec11a9112a9a572\",\n    \"value_in_credits\": 10.0,\n    \"value_in_fiat\": 0.1\n  },\n  \"message\": \"Transaction fetched successfully.\",\n  \"status\": \"success\"\n}"
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/Resource Not Found",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "General Auth1": []
+          }
+        ]
+      }
+    },
+    "/stripe/rate": {
+      "get": {
+        "summary": "Rate",
+        "deprecated": false,
+        "description": "This endpoint lets a user check the current credit rate and pricing on Crazi Co. `rate` is the amount of credits you'll get per dollar within that limit.\n\nCredits can only be bought between the `lower_limit` and `upper_limit`. Any amount outside of the limit will not be credited. For bigger purchases please reach out to us at [hello@crazi.co](mailto:hello@crazi.co).",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "lower_limit": {
+                            "type": "integer"
+                          },
+                          "rate": {
+                            "type": "integer"
+                          },
+                          "upper_limit": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": "{\n  \"data\": [\n    {\n      \"lower_limit\": 5,\n      \"rate\": 100,\n      \"stripe_price_id\": \"price_1SXmWHKwYn5rJp9NRR1k1rD4\",\n      \"upper_limit\": 10000\n    }\n  ],\n  \"message\": \"Credits rate fetched successfully. Upper limit and lower limit are in fiat. Rate is in credits per dollar. Any amount beyond the limits will not be credited.\",\n  \"status\": \"success\"\n}"
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "General Auth1": []
+          }
+        ]
+      }
+    },
+    "/stripe/portal": {
+      "post": {
+        "summary": "Portal",
+        "deprecated": false,
+        "description": "This endpoint lets a user manage his billing using [Stripe customer portal](https://docs.stripe.com/customer-management).",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "type": "string"
+                        },
+                        "value_in_credits": {
+                          "type": "integer"
+                        },
+                        "value_in_fiat": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "created_at",
+                        "description",
+                        "id",
+                        "type",
+                        "updated_at",
+                        "user_id",
+                        "value_in_credits",
+                        "value_in_fiat"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": "{\n  \"data\": {\n    \"url\": \"https://billing.stripe.com/p/session/test_YWNjdF8xU0ZyMm1Ld1luNXJKcDlOLF9UVXQ4T1BaZ0x3THpPWUxZT3l2RXh3U2NGekxFOTB60100YSmzbPRw\"\n  },\n  \"message\": \"Customer portal session created successfully.\",\n  \"status\": \"success\"\n}"
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/Bad Request",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "General Auth1": []
+          }
+        ]
+      }
+    },
+    "/stripe/buy": {
+      "post": {
+        "summary": "Buy",
+        "deprecated": false,
+        "description": "This endpoint lets a user buy credits in USD using [Stripe checkout session hosted page](https://docs.stripe.com/checkout/quickstart).\n\nBefore purchasing, please fetch the rate using the [Rate](apidog://link/endpoint/25423102) endpoint. Credits can only be bought between the `lower_limit` and `upper_limit`. Any amount outside of the limit will not be credited. For bigger purchases please reach out to us at [hello@crazi.co](mailto:hello@crazi.co).",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "integer"
+                  },
+                  "return_path": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "amount",
+                  "return_path"
+                ]
+              },
+              "example": {
+                "amount": 5,
+                "return_path": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "type": "string"
+                        },
+                        "value_in_credits": {
+                          "type": "integer"
+                        },
+                        "value_in_fiat": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "created_at",
+                        "description",
+                        "id",
+                        "type",
+                        "updated_at",
+                        "user_id",
+                        "value_in_credits",
+                        "value_in_fiat"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": "{\n  \"data\": {\n    \"return_path\": \"\",\n    \"url\": \"https://checkout.stripe.com/c/pay/cs_test_b1VbQddiB8glIwXq9TJrqDwnrHm4ukkRV1VewkBbb7Zq96ms5HYfqBYMe2#fidnandhYHdWcXxpYCc%2FJ2FgY2RwaXEnKSdqd2xibGtGamtxYH1xJz8ncmBnJyknZHVsTmB8Jz8ndW5acWB2cVowNFZDdzdoTnJcazB3T3U8S2YwMmtNZH1Kd1djUEtfYWpzQ1ZBQ3UwYTcwfX1GVzZNMTx8dUtjM0Y9Y19Qb1dMSHxPSkZMVnJMNDJvME5QcEZnXDQxQ31pQjU1NEhddGNsQFEnKSdjd2poVmB3c2B3Jz9xd3BgKSdnZGZuYndqcGthRmppancnPycmY2NjY2NjJyknaWR8anBxUXx1YCc%2FJ2hwaXFsWmxxYGgnKSdga2RnaWBVaWRmYG1qaWFgd3YnP3F3cGB4JSUl\",\n    \"value_in_credits\": 500,\n    \"value_in_fiat\": 5\n  },\n  \"message\": \"Checkout session created successfully.\",\n  \"status\": \"success\"\n}"
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/Bad Request",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/Resource Not Found",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "General Auth1": []
+          }
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "deprecated": false,
+        "description": "This endpoint lets a user check the current health status of the Crazi CoAPI.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "service": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "service",
+                        "status"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": "{\n  \"data\": {\n    \"service\": \"crazi_co\",\n    \"status\": \"healthy\"\n  },\n  \"message\": \"Health check successful.\",\n  \"status\": \"success\"\n}"
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/version": {
+      "get": {
+        "summary": "Version",
+        "deprecated": false,
+        "description": "This endpoint lets a user check the current version of the Crazi CoAPI.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "version": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "message",
+                    "status"
+                  ]
+                },
+                "example": "{\n  \"data\": {\n    \"version\": \"1.1.3\"\n  },\n  \"message\": \"Version check successful.\",\n  \"status\": \"success\"\n}"
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "responses": {
+      "Resource Not Found": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "",
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "null"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "const": "error"
+                }
+              },
+              "required": [
+                "data",
+                "message",
+                "status"
+              ]
+            },
+            "examples": {
+              "Resource Not Found": {
+                "summary": "Resource Not Found",
+                "value": {
+                  "data": null,
+                  "message": "<Resource Name> with the given identifier does not exist.",
+                  "status": "error"
+                }
+              },
+              "Credits Rate Not Found": {
+                "summary": "Credits Rate Not Found",
+                "value": {
+                  "data": null,
+                  "message": "No credits rate found for the given amount.",
+                  "status": "error"
+                }
+              },
+              "Route Not Found": {
+                "summary": "Route Not Found",
+                "value": {
+                  "data": null,
+                  "message": "The requested route does not exist.",
+                  "status": "error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Method Not Allowed": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "",
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "null"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "const": "error"
+                }
+              },
+              "required": [
+                "data",
+                "message",
+                "status"
+              ]
+            },
+            "examples": {
+              "Method Not Allowed": {
+                "summary": "Method Not Allowed",
+                "value": {
+                  "data": null,
+                  "message": "The requested method is not allowed for this route.",
+                  "status": "error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Rate Limit": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "",
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "null"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "const": "error"
+                }
+              },
+              "required": [
+                "data",
+                "message",
+                "status"
+              ]
+            },
+            "examples": {
+              "Rate Limit Exceeded": {
+                "summary": "Rate Limit Exceeded",
+                "value": {
+                  "data": null,
+                  "message": "You have exceeded the rate limit.",
+                  "status": "error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Internal Server Error": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "",
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "null"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "const": "error"
+                }
+              },
+              "required": [
+                "data",
+                "message",
+                "status"
+              ]
+            },
+            "examples": {
+              "Something Went Wrong": {
+                "summary": "Something Went Wrong",
+                "value": {
+                  "data": null,
+                  "message": "Something went wrong.",
+                  "status": "error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "",
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "is_2fa_enabled": {
+                      "type": "boolean",
+                      "default": true
+                    }
+                  },
+                  "required": [
+                    "is_2fa_enabled"
+                  ],
+                  "nullable": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "const": "error"
+                }
+              },
+              "required": [
+                "data",
+                "message",
+                "status"
+              ]
+            },
+            "examples": {
+              "Authentication Error": {
+                "summary": "Authentication Error",
+                "value": {
+                  "data": null,
+                  "message": "Authorization header or OTP is either missing, invalid or expired.",
+                  "status": "error"
+                }
+              },
+              "Authentication Error (2FA Required)": {
+                "summary": "Authentication Error (2FA Required)",
+                "value": {
+                  "data": {
+                    "is_2fa_enabled": true
+                  },
+                  "message": "Authorization header or OTP is either missing, invalid or expired.",
+                  "status": "error"
+                }
+              },
+              "Inactive User": {
+                "summary": "Inactive User",
+                "value": {
+                  "data": null,
+                  "message": "Please activate your account to access the requested resource.",
+                  "status": "error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Bad Request": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "",
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "null"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "const": "error"
+                }
+              },
+              "required": [
+                "data",
+                "message",
+                "status"
+              ]
+            },
+            "examples": {
+              "Empty Body": {
+                "summary": "Empty Body",
+                "value": {
+                  "data": null,
+                  "message": "Request body is empty.",
+                  "status": "error"
+                }
+              },
+              "Invalid Schema": {
+                "summary": "Invalid Schema",
+                "value": {
+                  "data": null,
+                  "message": "One or more required parameters are either not given or have invalid schema.",
+                  "status": "error"
+                }
+              },
+              "Resource Already Exists": {
+                "summary": "Resource Already Exists",
+                "value": {
+                  "data": null,
+                  "message": "<Resource Name> with the given identifier already exists.",
+                  "status": "error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "title": "",
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "null"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "const": "error"
+                }
+              },
+              "required": [
+                "data",
+                "message",
+                "status"
+              ]
+            },
+            "examples": {
+              "No Access To Resource": {
+                "summary": "No Access To Resource",
+                "value": {
+                  "data": null,
+                  "message": "You do not have access to the requested resource.",
+                  "status": "error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "User Token1": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "Public API Key1": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      },
+      "Basic Auth1": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "",
+      "description": "Develop Env"
+    },
+    {
+      "url": "",
+      "description": "Testing Env"
+    },
+    {
+      "url": "",
+      "description": "Prod Env"
+    }
+  ],
+  "security": [
+    {
+      "User Token1": []
+    }
+  ]
+}
