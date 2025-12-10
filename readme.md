@@ -191,18 +191,18 @@ See `.env.example` for the complete list.
 
 ## Features
 
-- ✅ **JWT Authentication** - Secure token-based authentication
-- ✅ **User Management** - User registration, login, profile management
-- ✅ **Google OAuth** - Social authentication integration
-- ✅ **Stripe Payments** - Payment processing integration
-- ✅ **Email Service** - AWS SES integration for transactional emails
-- ✅ **OTP System** - One-time password for email verification
-- ✅ **Database Models** - SQLModel ORM with Pydantic validation
-- ✅ **Error Handling** - Custom error handlers for AWS, Stripe, and general errors
-- ✅ **Logging** - Structured logging configuration
-- ✅ **CORS Support** - Cross-origin resource sharing enabled
-- ✅ **Rate Limiting** - Flask-Limiter integration
-- ✅ **Azure Deployment** - Ready-to-deploy with Docker and App Service
+- **JWT Authentication** - Secure token-based authentication
+- **User Management** - User registration, login, profile management
+- **Google OAuth** - Social authentication integration
+- **Stripe Payments** - Payment processing integration
+- **Email Service** - AWS SES integration for transactional emails
+- **OTP System** - One-time password for email verification
+- **Database Models** - SQLModel ORM with Pydantic validation
+- **Error Handling** - Custom error handlers for AWS, Stripe, and general errors
+- **Logging** - Structured logging configuration
+- **CORS Support** - Cross-origin resource sharing enabled
+- **Rate Limiting** - Flask-Limiter integration
+- **Azure Deployment** - Ready-to-deploy with Docker and App Service
 
 ## API Endpoints
 
