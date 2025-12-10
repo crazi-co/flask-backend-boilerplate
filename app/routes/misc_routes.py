@@ -8,7 +8,6 @@ from app.utils.api_responses import APIResponse
 
 
 class MiscRoute:
-
     """Misc route functions."""
 
     @staticmethod

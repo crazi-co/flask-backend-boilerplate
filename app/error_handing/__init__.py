@@ -1,4 +1,4 @@
-"""Error handling package for all services."""
+"""Error handling package."""
 
 from app.error_handing.aws_error_handler import AWSError
 from app.error_handing.base_error_handler import BaseError

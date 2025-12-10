@@ -1,4 +1,4 @@
-"""Data package for the app."""
+"""Data package."""
 
 import os
 from typing import TYPE_CHECKING
